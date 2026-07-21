@@ -41,7 +41,7 @@ export async function scanPantryImage(formData) {
             isPro
               ? "Please contact support if you need more scans."
               : "Upgrade to Pro for unlimited scans!"
-          }`
+          }`,
         );
       }
       throw new Error("Request denied by security system");
@@ -58,7 +58,7 @@ export async function scanPantryImage(formData) {
     const base64Image = buffer.toString("base64");
 
     // Call Gemini Vision API
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
     const prompt = `
 You are a professional chef and ingredient recognition expert. Analyze this image of a pantry/fridge and identify all visible food ingredients.
@@ -109,7 +109,7 @@ Rules:
 
     if (!Array.isArray(ingredients) || ingredients.length === 0) {
       throw new Error(
-        "No ingredients detected in the image. Please try a clearer photo."
+        "No ingredients detected in the image. Please try a clearer photo.",
       );
     }
 
@@ -241,7 +241,7 @@ export async function getPantryItems() {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
         },
         cache: "no-store",
-      }
+      },
     );
 
     if (!response.ok) {

@@ -33,13 +33,13 @@ async function fetchRecipeImage(recipeName) {
     const searchQuery = `${recipeName}`;
     const response = await fetch(
       `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
-        searchQuery
+        searchQuery,
       )}&per_page=1&orientation=landscape`,
       {
         headers: {
           Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
@@ -85,14 +85,14 @@ export async function getOrGenerateRecipe(formData) {
     // Step 1: Check if recipe already exists in DB (case-insensitive search)
     const searchResponse = await fetch(
       `${STRAPI_URL}/api/recipes?filters[title][$eqi]=${encodeURIComponent(
-        normalizedTitle
+        normalizedTitle,
       )}&populate=*`,
       {
         headers: {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
         },
         cache: "no-store",
-      }
+      },
     );
 
     if (searchResponse.ok) {
@@ -109,7 +109,7 @@ export async function getOrGenerateRecipe(formData) {
               Authorization: `Bearer ${STRAPI_API_TOKEN}`,
             },
             cache: "no-store",
-          }
+          },
         );
 
         let isSaved = false;
@@ -133,7 +133,7 @@ export async function getOrGenerateRecipe(formData) {
     // Step 2: Recipe doesn't exist, generate with Gemini
     console.log("🤖 Recipe not found, generating with Gemini...");
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
     const prompt = `
 You are a professional chef and recipe expert. Generate a detailed recipe for: "${normalizedTitle}"
@@ -233,7 +233,7 @@ Guidelines:
       "dessert",
     ];
     const category = validCategories.includes(
-      recipeData.category?.toLowerCase()
+      recipeData.category?.toLowerCase(),
     )
       ? recipeData.category.toLowerCase()
       : "dinner";
@@ -294,7 +294,7 @@ Guidelines:
 
     console.log(
       "📤 Saving new recipe to database with title:",
-      normalizedTitle
+      normalizedTitle,
     );
 
     const createRecipeResponse = await fetch(`${STRAPI_URL}/api/recipes`, {
@@ -358,7 +358,7 @@ export async function saveRecipeToCollection(formData) {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
         },
         cache: "no-store",
-      }
+      },
     );
 
     if (existingResponse.ok) {
@@ -430,7 +430,7 @@ export async function removeRecipeFromCollection(formData) {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
         },
         cache: "no-store",
-      }
+      },
     );
 
     if (!searchResponse.ok) {
@@ -455,7 +455,7 @@ export async function removeRecipeFromCollection(formData) {
         headers: {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
         },
-      }
+      },
     );
 
     if (!deleteResponse.ok) {
@@ -499,7 +499,7 @@ export async function getRecipesByPantryIngredients() {
         throw new Error(
           `Monthly AI recipe limit reached. ${
             isPro ? "Please contact support." : "Upgrade to Pro!"
-          }`
+          }`,
         );
       }
       throw new Error("Request denied");
@@ -513,7 +513,7 @@ export async function getRecipesByPantryIngredients() {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
         },
         cache: "no-store",
-      }
+      },
     );
 
     if (!pantryResponse.ok) {
@@ -533,7 +533,7 @@ export async function getRecipesByPantryIngredients() {
 
     console.log("🥘 Finding recipes for ingredients:", ingredients);
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
     const prompt = `
 You are a professional chef. Given these available ingredients: ${ingredients}
@@ -576,7 +576,7 @@ Rules:
     } catch (parseError) {
       console.error("Failed to parse Gemini response:", text);
       throw new Error(
-        "Failed to generate recipe suggestions. Please try again."
+        "Failed to generate recipe suggestions. Please try again.",
       );
     }
 
@@ -609,7 +609,7 @@ export async function getSavedRecipes() {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
         },
         cache: "no-store",
-      }
+      },
     );
 
     if (!response.ok) {

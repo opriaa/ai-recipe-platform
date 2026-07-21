@@ -111,7 +111,7 @@ export default async function LandingPage() {
 
       {/* Stats Bar */}
       <section className="py-12 border-y-2 border-stone-900 bg-stone-900">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center px-4">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center px-4">
           {SITE_STATS.map((stat, i) => (
             <div key={i}>
               <div className="text-4xl font-bold mb-1 text-stone-50">

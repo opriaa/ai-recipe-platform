@@ -66,10 +66,6 @@ GEMINI_API_KEY=
 
 Create a `.env` file in the backend with your Strapi and Neon PostgreSQL credentials.
 
-## 📸 Screenshots
-
-_Add project screenshots here._
-
 ## 📄 License
 
 This project is for learning and educational purposes.
